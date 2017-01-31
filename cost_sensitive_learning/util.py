@@ -1,3 +1,6 @@
+board = [[' ' for j in xrange(3)] for i in xrange(3)]
+numbered_board = [[(3*i + j) for j in xrange(3)] for i in xrange(3)]
+
 def evaluates_play(pos, gamer):
     is_valid = False
     for i in range(3):
