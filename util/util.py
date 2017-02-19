@@ -1,3 +1,5 @@
+from genetic_algorithm import Element
+
 board = [[' ' for j in xrange(3)] for i in xrange(3)]
 numbered_board = [[(3*i + j) for j in xrange(3)] for i in xrange(3)]
 
@@ -29,6 +31,21 @@ def print_out_board():
                 else:
                     lines += "---"
             print lines
+
+def board_as_element():
+    chromosome = ""
+
+    for i in range(3):
+        for j in range(3):
+            if board[i][j] == ' ':
+                chromosome += "00"
+            elif board[i][j] == 'X':
+                chromosome += "01"
+            elif board[i][j] == 'O':
+                chromosome += "10"
+
+    return chromosome
+
 
 def print_out_numbered_board():
     for i in range(3):

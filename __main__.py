@@ -1,6 +1,7 @@
 # coding: utf-8
 
 import util.util
+from genetic_algorithm import GeneticAlgorithm, Element
 
 def main():
     players_turn = True
@@ -18,7 +19,9 @@ def main():
                 insert_pos = int(raw_input("Insert in another position: "))
         else:
             print "COMPUTER TURN!"
-            print "MUST DO SOMETHING"
+            board_element = util.util.board_as_element()
+            ag = GeneticAlgorithm.GeneticAlgorithm(5, 5, board_element, 1)
+            ag.execute()
             print "Current game state:"
             util.util.print_out_board()
 
@@ -27,6 +30,8 @@ def main():
                 print "You won."
             else:
                 print "You lost."
+            util.util.print_out_board()
+
         elif util.util.is_dead_heat():
             print "Is Dead Heat."
 
