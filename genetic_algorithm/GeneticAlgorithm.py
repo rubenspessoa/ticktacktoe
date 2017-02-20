@@ -23,8 +23,15 @@ class GeneticAlgorithm:
 
         for i in range(self.__generations_size):
             self.__evaluate_elements()
-            # TODO: self.__generation()
-            return self.__determine_best()
+
+            top = self.__determine_best()
+
+            if top.get_evaluation() > 3:
+                return top
+            else:
+                self.__generation()
+
+        return self.__determine_best()
 
     def __determine_best(self):
         self.__sort_population_by_eval()
@@ -52,9 +59,6 @@ class GeneticAlgorithm:
 
         return self.__population[i]
 
-    def __sort_population_by_eval(self):
-        self.__population = sorted(self.__population, key=lambda element: element.get_evaluation())
-
     def __initialize_population(self):
         self.__count_blanks()
         self.__population = []
@@ -71,6 +75,9 @@ class GeneticAlgorithm:
             if not catchEquals:
                 self.__population.append(el)
 
+    def __sort_population_by_eval(self):
+        self.__population = sorted(self.__population, key=lambda element: element.get_evaluation())
+
     def __sum_evaluations(self):
         eval_sum = 0
         for i in range(len(self.__population)):
@@ -81,6 +88,7 @@ class GeneticAlgorithm:
         for i in range(len(self.__population)):
             self.__population[i].evaluate()
         self.__sum_evaluations()
+        self.__sort_population_by_eval()
 
     def __count_blanks(self):
         self.__blanks = []
