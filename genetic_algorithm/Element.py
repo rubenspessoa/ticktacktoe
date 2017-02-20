@@ -87,9 +87,3 @@ class Element:
                 new_chromosome += self.__symbol
 
         self.chromosome = new_chromosome
-
-        """
-        pseudo_rolette = uniform(0, 1)
-
-        if pseudo_rolette <= self.__mutation_prob:
-        """

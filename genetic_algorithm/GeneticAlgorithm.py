@@ -38,26 +38,35 @@ class GeneticAlgorithm:
         return self.__population[-1]
 
     def __generation(self):
-        new_population = []
+        crossover_population = []
 
-        for i in range(self.__population_size):
-            # new_population.append(self.__population[i].mutation(self.__mutation_prob))
-            pass
-        # self.__population = new_population
+        chosen_index = self.__roulette()
+
+        for i in range(len(self.__population) - 1, chosen_index - 1, -1):
+            crossover_population.append(self.__population[i])
+
+        self.__initialize_population()
+        self.__sort_population_by_eval()
+
+        for i in range(len(self.__population) - 1, len(self.__population) - 1 - chosen_index, -1):
+            crossover_population.append(self.__population[i])
+
+        self.__population = crossover_population
 
     def __roulette(self):
         self.__sum_evaluations()
         self.__sort_population_by_eval()
-        chosen_element_eval = randint(0, self.eval_count)
+
+        chosen_element_eval = randint(0, self.__eval_count)
 
         i = 0
-        current_eval = self.__population[i]
+        current_eval = self.__population[i].get_evaluation()
 
         while current_eval < chosen_element_eval:
             i += 1
-            current_eval = self.__population[i]
+            current_eval += self.__population[i].get_evaluation()
 
-        return self.__population[i]
+        return i
 
     def __initialize_population(self):
         self.__count_blanks()
@@ -79,15 +88,15 @@ class GeneticAlgorithm:
         self.__population = sorted(self.__population, key=lambda element: element.get_evaluation())
 
     def __sum_evaluations(self):
-        eval_sum = 0
-        for i in range(len(self.__population)):
-            eval_sum += self.__population[i].get_evaluation()
-        self.eval_count = eval_sum
+        self.__evaluate_elements()
+
+        self.__eval_count = 0
+        for element in self.__population:
+            self.__eval_count += element.get_evaluation()
 
     def __evaluate_elements(self):
         for i in range(len(self.__population)):
             self.__population[i].evaluate()
-        self.__sum_evaluations()
         self.__sort_population_by_eval()
 
     def __count_blanks(self):
